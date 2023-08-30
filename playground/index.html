@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SystemJS Extras</title>
+    <link rel="shortcut icon" href="./fav32.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "lodash": "https://cdn.jsdelivr.net/npm/lodash"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.js"></script>
+    <script src="./systemjs-html-extra/dist/index.js"></script>
+    <script src="./systemjs-cjs-extra/dist/index.js"></script>
+  </head>
+  <body>
+    <script>
+      System.import("./module/one.cjs").then((m) => {
+        const el = document.createElement("h1");
+        const words = m.phrase;
+        const text = document.createTextNode(words);
+        el.appendChild(text);
+        document.body.appendChild(el);
+
+        const el2 = document.createElement("h1");
+        const words2 = `2 + 3 = ${m.add(2, 3)}.`;
+        const text2 = document.createTextNode(words2);
+        el2.appendChild(text2);
+
+        document.body.appendChild(el2);
+      });
+
+      // System.import("./test/world.cjs").then((m) => {
+      //   const el = document.createElement("h1");
+      //   const words = m.phrase;
+      //   const text = document.createTextNode(words);
+      //   el.appendChild(text);
+      //   document.body.appendChild(el);
+
+      //   const el2 = document.createElement("h1");
+      //   const words2 = `2 + 3 = ${m.add(2, 3)}.`;
+      //   const text2 = document.createTextNode(words2);
+      //   el2.appendChild(text2);
+
+      //   document.body.appendChild(el2);
+      // });
+
+      // Ignore this - it's just to demo loading CSS
+      System.onload = function (err, id, deps, isErrSource) {
+        if (id.endsWith(".css") && !err) {
+          if (System.has(id)) {
+            const module = System.get(id);
+            const styles = module?.default;
+            if (styles) {
+              document.adoptedStyleSheets = [
+                ...document.adoptedStyleSheets,
+                styles,
+              ];
+            }
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

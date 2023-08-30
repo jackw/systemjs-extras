@@ -1,0 +1,21 @@
+{
+  "name": "systemjs-extras",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A mono-repo of extras",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "lerna run build",
+    "watch": "pnpm run build -- --watch",
+    "serve": "serve ./playground"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "fs-extra": "^11.1.1",
+    "lerna": "^7.2.0",
+    "rollup": "^3.28.1",
+    "serve": "^14.2.1"
+  }
+}

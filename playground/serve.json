@@ -1,0 +1,14 @@
+{
+  "headers": [
+    {
+      "source": "**/*.cjs",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        }
+      ]
+    }
+  ],
+  "cleanUrls": false
+}

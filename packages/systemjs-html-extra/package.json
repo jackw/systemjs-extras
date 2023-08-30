@@ -1,0 +1,13 @@
+{
+  "name": "systemjs-html-extra",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c ../../shared/rollup.config.mjs --configPackageName=systemjs-html-extra"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
