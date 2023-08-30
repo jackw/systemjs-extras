@@ -19,35 +19,31 @@
   </head>
   <body>
     <script>
-      System.import("./module/one.cjs").then((m) => {
+      System.import("./system-module/index.js").then((m) => {
+        if (m && m.lodash) {
+          const el = document.createElement("h1");
+          const words = m.lodash.VERSION;
+          const text = document.createTextNode(`We are using lodash@${words}`);
+          el.appendChild(text);
+
+          document.body.appendChild(el);
+        }
+      });
+
+      System.import("./cjs-module/one.js").then((m) => {
         const el = document.createElement("h1");
         const words = m.phrase;
         const text = document.createTextNode(words);
         el.appendChild(text);
         document.body.appendChild(el);
 
-        const el2 = document.createElement("h1");
+        const el2 = document.createElement("h2");
         const words2 = `2 + 3 = ${m.add(2, 3)}.`;
         const text2 = document.createTextNode(words2);
         el2.appendChild(text2);
 
         document.body.appendChild(el2);
       });
-
-      // System.import("./test/world.cjs").then((m) => {
-      //   const el = document.createElement("h1");
-      //   const words = m.phrase;
-      //   const text = document.createTextNode(words);
-      //   el.appendChild(text);
-      //   document.body.appendChild(el);
-
-      //   const el2 = document.createElement("h1");
-      //   const words2 = `2 + 3 = ${m.add(2, 3)}.`;
-      //   const text2 = document.createTextNode(words2);
-      //   el2.appendChild(text2);
-
-      //   document.body.appendChild(el2);
-      // });
 
       // Ignore this - it's just to demo loading CSS
       System.onload = function (err, id, deps, isErrSource) {

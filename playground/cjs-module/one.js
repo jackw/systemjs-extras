@@ -1,6 +1,6 @@
 "use strict";
 
-const { phrase } = require("./deps/two.cjs");
+const { phrase } = require("./deps/two.js");
 
 function add(a, b) {
   return a + b;

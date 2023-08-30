@@ -5,3 +5,6 @@ export const AMD_MODULE_REGEX =
 export const CJS_EXPORTS_REGEX =
   /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])(exports\s*(\[['"]|\.)|module(\.exports|\['exports'\]|\["exports"\])\s*(\[['"]|[=,\.]))/;
 export const CJS_FILEDIR_REGEX = /__filename|__dirname]/;
+
+export const javascriptRegEx = /^[^#?]+\.js([?#].*)?$/;
+export const jsContentTypeRegEx = /^(text|application)\/(x-)?javascript(;|$)/;
