@@ -4,10 +4,13 @@
   "version": "1.0.0",
   "description": "A mono-repo of extras",
   "scripts": {
+    "clean": "lerna run clean",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "lerna run build",
     "watch": "pnpm run build -- --watch",
-    "serve": "serve ./playground"
+    "serve": "serve ./playground",
+    "packages:pack": "mkdir -p ./npm-artifacts && lerna exec --no-private -- pnpm pack --pack-destination \"../../npm-artifacts\"",
+    "packages:version": "lerna version --no-private"
   },
   "keywords": [],
   "author": "",
