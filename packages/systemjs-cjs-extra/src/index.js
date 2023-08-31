@@ -20,10 +20,6 @@ systemJSPrototype.shouldFetch = function (url) {
 };
 
 systemJSPrototype.instantiate = function (url, parentUrl, meta) {
-  if (!systemJSPrototype.shouldFetch(url, parent, meta)) {
-    originalInstantiate.call(this, url, parentUrl, meta);
-  }
-
   const isJavascriptFile = javascriptRegEx.test(url);
 
   if (isJavascriptFile) {
