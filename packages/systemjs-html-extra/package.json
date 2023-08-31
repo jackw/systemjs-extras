@@ -1,6 +1,6 @@
 {
   "name": "systemjs-html-extra",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An extra for SystemJS 6 to load html in the browser",
   "main": "dist/index.js",
   "files": [
