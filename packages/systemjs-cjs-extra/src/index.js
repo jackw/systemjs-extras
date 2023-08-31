@@ -20,6 +20,10 @@ systemJSPrototype.shouldFetch = function (url) {
 };
 
 systemJSPrototype.instantiate = function (url, parentUrl, meta) {
+  if (!systemJSPrototype.shouldFetch(url, parent, meta)) {
+    originalInstantiate.call(this, url, parentUrl, meta);
+  }
+
   const isJavascriptFile = javascriptRegEx.test(url);
 
   if (isJavascriptFile) {
@@ -113,5 +117,5 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
   }
 
   // If not a JS file, use default behavior
-  return originalInstantiate.call(this, url, parentUrl);
+  return originalInstantiate.call(this, url, parentUrl, meta);
 };
