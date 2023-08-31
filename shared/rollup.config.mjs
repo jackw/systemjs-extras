@@ -38,7 +38,6 @@ export default (commandLineArgs) => {
         name: "MyBundle",
         sourcemap: true,
         globals: globalDef,
-
         plugins: [minify()],
       },
     ],

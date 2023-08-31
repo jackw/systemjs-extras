@@ -1,13 +1,27 @@
 {
   "name": "systemjs-cjs-extra",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An extra for SystemJS 6 to load CommonJS modules in the browser",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jackw/systemjs-extras",
+    "directory": "packages/systemjs-cjs-extra"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c ../../shared/rollup.config.mjs --configPackageName=systemjs-cjs-extra"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "systemjs",
+    "extra",
+    "commonjs",
+    "cjs",
+    "browser"
+  ],
+  "author": "Jack Westbrook",
   "license": "MIT"
 }

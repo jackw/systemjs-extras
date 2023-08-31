@@ -1,13 +1,26 @@
 {
   "name": "systemjs-html-extra",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An extra for SystemJS 6 to load html in the browser",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jackw/systemjs-extras",
+    "directory": "packages/systemjs-html-extra"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c ../../shared/rollup.config.mjs --configPackageName=systemjs-html-extra"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "systemjs",
+    "extra",
+    "html",
+    "browser"
+  ],
+  "author": "Jack Westbrook",
   "license": "MIT"
 }
