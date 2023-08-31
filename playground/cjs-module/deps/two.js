@@ -44,5 +44,3 @@ exports.phrase = _lodash2.default.reduce(
   },
   ""
 );
-
-console.log({ dirname: __dirname, filename: __filename });
