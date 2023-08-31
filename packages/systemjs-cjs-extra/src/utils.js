@@ -60,7 +60,7 @@ export function createRequire(loader, parentUrl) {
           resolvedUrl +
           (parentUrl ? ' from "' + parentUrl + '".' : ".")
       );
-    return module;
-    return "__useDefault" in module ? module.__useDefault : module;
+
+    return "__useDefault" in module ? module.default : module;
   };
 }
