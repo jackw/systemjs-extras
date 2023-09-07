@@ -4,6 +4,7 @@ import {
   getPathVars,
   template,
   isCJSFormat,
+  errMsg,
 } from "./utils";
 
 import { javascriptRegEx, jsContentTypeRegEx } from "./constants";
@@ -31,16 +32,29 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
       .then((res) => {
         if (!res.ok) {
           throw Error(
-            `${[res.status, res.statusText, url, parent].join(
-              ", "
-            )} (SystemJS https://github.com/systemjs/systemjs/blob/main/docs/errors.md#7)`
+            errMsg(
+              7,
+              res.status +
+                " " +
+                res.statusText +
+                ", loading " +
+                url +
+                (parentUrl ? " from " + parentUrl : "")
+            )
           );
         }
         const contentType = res.headers.get("content-type");
 
         if (!contentType || !jsContentTypeRegEx.test(contentType)) {
           throw Error(
-            `${contentType} (SystemJS https://github.com/systemjs/systemjs/blob/main/docs/errors.md#4`
+            errMsg(
+              4,
+              'Unknown Content-Type "' +
+                contentType +
+                '", loading ' +
+                url +
+                (parentUrl ? " from " + parentUrl : "")
+            )
           );
         }
 

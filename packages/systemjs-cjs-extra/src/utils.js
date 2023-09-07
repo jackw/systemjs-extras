@@ -14,6 +14,18 @@ export function isCJSFormat(source) {
   );
 }
 
+export function errMsg(errCode, msg) {
+  return (
+    (msg || "") +
+    " (SystemJS Error#" +
+    errCode +
+    " " +
+    "https://github.com/systemjs/systemjs/blob/main/docs/errors.md#" +
+    errCode +
+    ")"
+  );
+}
+
 export function getPathVars(url) {
   const filename = url.substring(url.lastIndexOf("/") + 1);
   let dirname = url.split("/");
