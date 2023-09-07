@@ -10,10 +10,11 @@
     "watch": "pnpm run build -- --watch",
     "serve": "serve ./playground",
     "packages:pack": "mkdir -p ./npm-artifacts && lerna exec --no-private -- pnpm pack --pack-destination \"../../npm-artifacts\"",
-    "packages:version": "lerna version --no-private"
+    "packages:version": "lerna version --no-private",
+    "packages:publish": "pnpm -r publish"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jack Westbrook",
   "license": "MIT",
   "devDependencies": {
     "fs-extra": "^11.1.1",
