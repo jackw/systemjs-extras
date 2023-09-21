@@ -7,7 +7,7 @@ import {
   errMsg,
 } from "./utils";
 
-import { javascriptRegEx, jsContentTypeRegEx } from "./constants";
+import { JAVASCRIPT_REGEX, JS_CONTENT_TYPE_REGEX } from "./constants";
 
 import global from "global";
 
@@ -17,11 +17,11 @@ const originalShouldFetch =
   systemJSPrototype.shouldFetch.bind(systemJSPrototype);
 
 systemJSPrototype.shouldFetch = function (url) {
-  return originalShouldFetch(url) || javascriptRegEx.test(url);
+  return originalShouldFetch(url) || JAVASCRIPT_REGEX.test(url);
 };
 
 systemJSPrototype.instantiate = function (url, parentUrl, meta) {
-  const isJavascriptFile = javascriptRegEx.test(url);
+  const isJavascriptFile = JAVASCRIPT_REGEX.test(url);
 
   if (isJavascriptFile) {
     return systemJSPrototype
@@ -45,7 +45,7 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
         }
         const contentType = res.headers.get("content-type");
 
-        if (!contentType || !jsContentTypeRegEx.test(contentType)) {
+        if (!contentType || !JS_CONTENT_TYPE_REGEX.test(contentType)) {
           throw Error(
             errMsg(
               4,
@@ -117,8 +117,9 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
             });
           } else {
             // If not a CommonJS module, use default behavior
-            if (source.indexOf("//# sourceURL=") < 0)
+            if (source.indexOf("//# sourceURL=") < 0) {
               source += "\n//# sourceURL=" + url;
+            }
             (0, eval)(source);
             return systemJSPrototype.getRegister(url);
           }

@@ -3,6 +3,8 @@ import {
   CJS_EXPORTS_REGEX,
   CJS_FILEDIR_REGEX,
   CJS_REQUIRE_REGEX,
+  COMMENT_REGEX,
+  STRING_REGEX,
 } from "./constants";
 
 export function isCJSFormat(source) {
@@ -39,18 +41,56 @@ export function getPathVars(url) {
 }
 
 export function extractDepsFromSource(source) {
-  // TODO: improve this to handle commented code
-  const foundDeps = source.match(CJS_REQUIRE_REGEX);
-  const depIndentifiers = foundDeps
-    ?.map((requireStatement) => {
-      const match = requireStatement.match(/\srequire\(["|'](.+)["|']\)/);
-      if (match && match[1]) {
-        return match[1];
+  CJS_REQUIRE_REGEX.lastIndex =
+    COMMENT_REGEX.lastIndex =
+    STRING_REGEX.lastIndex =
+      0;
+  let depIndentifiers = [];
+  let stringLocations = [];
+  let commentLocations = [];
+  let match;
+
+  if (source.length / source.split("\n").length < 200) {
+    while ((match = STRING_REGEX.exec(source))) {
+      stringLocations.push([match.index, match.index + match[0].length]);
+    }
+
+    while ((match = COMMENT_REGEX.exec(source))) {
+      // only track comments not starting in strings
+      if (!inLocation(stringLocations, match)) {
+        commentLocations.push([
+          match.index + match[1].length,
+          match.index + match[0].length - 1,
+        ]);
       }
-      return "";
-    })
-    .filter(Boolean);
-  return depIndentifiers?.length ? depIndentifiers : [];
+    }
+  }
+
+  while ((match = CJS_REQUIRE_REGEX.exec(source))) {
+    // ensure we're not within a string or comment location
+    if (
+      !inLocation(stringLocations, match) &&
+      !inLocation(commentLocations, match)
+    ) {
+      var dep = match[1].substring(1, match[1].length - 1);
+      // skip cases like require('" + file + "')
+      if (dep.match(/"|'/)) {
+        continue;
+      }
+      depIndentifiers.push(dep);
+    }
+  }
+
+  return depIndentifiers;
+}
+
+function inLocation(locations, match) {
+  for (var i = 0; i < locations.length; i++) {
+    if (locations[i][0] < match.index && locations[i][1] > match.index) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function template(source) {
@@ -64,14 +104,15 @@ export function createRequire(loader, parentUrl) {
     const resolvedUrl = loader.resolve(id, parentUrl);
     const module = loader.get(resolvedUrl);
 
-    if (!module)
+    if (!module) {
       throw new Error(
         'Module not already loaded loading "' +
           id +
           '" as ' +
           resolvedUrl +
-          (parentUrl ? ' from "' + parentUrl + '".' : ".")
+          (parentUrl ? ' from "' + parentUrl + '".' : "."),
       );
+    }
 
     return "__useDefault" in module ? module.default : module;
   };
