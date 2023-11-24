@@ -20,7 +20,7 @@
   "devDependencies": {
     "eslint": "^8.49.0",
     "fs-extra": "^11.1.1",
-    "lerna": "^7.2.0",
+    "lerna": "^8.0.0",
     "prettier": "3.0.3",
     "rollup": "^3.28.1",
     "rollup-plugin-esbuild": "^5.0.0",
