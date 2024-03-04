@@ -23,6 +23,10 @@ systemJSPrototype.shouldFetch = function (url) {
 systemJSPrototype.instantiate = function (url, parentUrl, meta) {
   const isJavascriptFile = JAVASCRIPT_REGEX.test(url);
 
+  if (!this.shouldFetch(url)) {
+    return originalInstantiate.call(this, url, parentUrl, meta);
+  }
+
   if (isJavascriptFile) {
     return systemJSPrototype
       .fetch(url, {
@@ -39,8 +43,8 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
                 res.statusText +
                 ", loading " +
                 url +
-                (parentUrl ? " from " + parentUrl : "")
-            )
+                (parentUrl ? " from " + parentUrl : ""),
+            ),
           );
         }
         const contentType = res.headers.get("content-type");
@@ -53,8 +57,8 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
                 contentType +
                 '", loading ' +
                 url +
-                (parentUrl ? " from " + parentUrl : "")
-            )
+                (parentUrl ? " from " + parentUrl : ""),
+            ),
           );
         }
 
@@ -67,7 +71,7 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
 
             // Import all dependencies into the SystemJS registry
             const depsPromises = dependencies.map((dep) =>
-              global.System.import(dep, parentUrl ?? url)
+              global.System.import(dep, parentUrl ?? url),
             );
 
             // Make sure all deps are loaded before attempting to exec the module
@@ -99,18 +103,15 @@ systemJSPrototype.instantiate = function (url, parentUrl, meta) {
 
               // Create a System.register format and pass the dependencies
               // and module exports.
-              systemJSPrototype.register(
-                dependencies,
-                function (_export, _context) {
-                  return {
-                    setters: [],
-                    execute: function () {
-                      _export(module.exports);
-                      _export("default", module.exports);
-                    },
-                  };
-                }
-              );
+              systemJSPrototype.register(dependencies, function (_export) {
+                return {
+                  setters: [],
+                  execute: function () {
+                    _export(module.exports);
+                    _export("default", module.exports);
+                  },
+                };
+              });
 
               // Return the new module
               return systemJSPrototype.getRegister(url);
