@@ -25,5 +25,10 @@
     "rollup": "^3.28.1",
     "rollup-plugin-esbuild": "^5.0.0",
     "serve": "^14.2.1"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   }
 }
